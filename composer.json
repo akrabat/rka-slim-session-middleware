@@ -1,0 +1,26 @@
+{
+    "name": "akrabat/rka-slim-session-middleware",
+    "description": "Simple session middleware for Slim Framework",
+    "keywords": [
+        "slim", "session", "middleware"
+    ],
+    "homepage": "http://github.com/akrabat/rka-slim-session-middleware",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Rob Allen",
+            "email": "rob@akrabat.com",
+            "homepage": "http://akrabat.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "slim/slim": "~2.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "RKA\\": "RKA"
+        }
+    }
+}
