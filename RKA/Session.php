@@ -44,12 +44,12 @@ final class Session
 
     public function __set($name, $value)
     {
-        $this->set($name, $value);
+        return $this->set($name, $value);
     }
 
     public function __get($name)
     {
-        $this->get($name);
+        return $this->get($name);
     }
 
     public function __isset($name)
@@ -59,6 +59,6 @@ final class Session
 
     public function __unset($name)
     {
-        $this->delete($name);
+        return $this->delete($name);
     }
 }
