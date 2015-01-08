@@ -54,7 +54,7 @@ final class Session
 
     public function __isset($name)
     {
-        return array_key_exists($key, $_SESSION);
+        return array_key_exists($name, $_SESSION);
     }
 
     public function __unset($name)
