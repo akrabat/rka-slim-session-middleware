@@ -1,10 +1,10 @@
 # RKA Slim Session Middleware
 
-Middleware for [Slim Framework][1] thats starts a session. Also provides a useful Session class.
+Middleware for [Slim Framework][1] thats starts a session. Also provides a useful `Session` class.
 
 ## Installation
 
-    composer require akrabat/rka-slim-session-middleware
+    composer require "akrabat/rka-slim-session-middleware"
 
 ## Usage
 
