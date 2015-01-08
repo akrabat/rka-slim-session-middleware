@@ -42,23 +42,23 @@ final class Session
         $_SESSION = [];
     }
 
-    public function __set($name, $value)
+    public function __set($key, $value)
     {
-        return $this->set($name, $value);
+        return $this->set($key, $value);
     }
 
-    public function __get($name)
+    public function __get($key)
     {
-        return $this->get($name);
+        return $this->get($key);
     }
 
-    public function __isset($name)
+    public function __isset($key)
     {
-        return array_key_exists($name, $_SESSION);
+        return array_key_exists($key, $_SESSION);
     }
 
-    public function __unset($name)
+    public function __unset($key)
     {
-        return $this->delete($name);
+        return $this->delete($key);
     }
 }
