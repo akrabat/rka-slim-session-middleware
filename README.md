@@ -1,6 +1,6 @@
 # RKA Slim Session Middleware
 
-Middleware for [Slim Framework][1] thats starts a session. Also provides a useful `Session` class.
+Middleware for [Slim Framework][1] that starts a session. Also provides a useful `Session` class.
 
 ## Installation
 
