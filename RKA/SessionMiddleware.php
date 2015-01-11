@@ -13,14 +13,14 @@ final class SessionMiddleware extends Middleware
 {
     protected $options = [
         'name' => 'RKA',
-        'lifetime' => '7200',
+        'lifetime' => 7200,
         'path' => null,
         'domain' => null,
         'secure' => false,
         'httponly' => true,
     ];
 
-    public function __construct($options)
+    public function __construct($options = [])
     {
         $keys = array_keys($this->options);
         foreach ($keys as $key) {
@@ -45,11 +45,11 @@ final class SessionMiddleware extends Middleware
         $options = $this->options;
         $current = session_get_cookie_params();
         
-        $lifetime = $options['lifetime'] ?: $current['lifetime'];
+        $lifetime = (int)($options['lifetime'] ?: $current['lifetime']);
         $path     = $options['path'] ?: $current['path'];
         $domain   = $options['domain'] ?: $current['domain'];
-        $secure   = (bool)($options['secure'] ?: false);
-        $httponly = (bool)($options['httponly'] ?: true);
+        $secure   = (bool)$options['secure'];
+        $httponly = (bool)$options['httponly'];
 
         session_set_cookie_params($lifetime, $path, $domain, $secure, $httponly);
         session_name($options['name']);
