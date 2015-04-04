@@ -53,6 +53,7 @@ final class SessionMiddleware extends Middleware
 
         session_set_cookie_params($lifetime, $path, $domain, $secure, $httponly);
         session_name($options['name']);
+        session_cache_limiter(false); //http://docs.slimframework.com/#Sessions
         session_start();
     }
 }
