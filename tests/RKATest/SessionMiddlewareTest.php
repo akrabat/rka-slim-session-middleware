@@ -24,10 +24,10 @@ class SessionMiddlewareTest extends \PHPUnit_Framework_TestCase
             'path' => '/',
             'domain' => '',
             'secure' => false,
-            'httponly' => true,
+            'httponly' => false,
         ];
         $this->assertEquals($expected, session_get_cookie_params());
-        
+
         $this->assertEquals(PHP_SESSION_ACTIVE, session_status());
         $this->assertEquals('RKA', session_name());
     }
@@ -36,7 +36,7 @@ class SessionMiddlewareTest extends \PHPUnit_Framework_TestCase
     {
         $session = new SessionMiddleware([
             'name' => 'Test',
-            'lifetime' => '3600',
+            'lifetime' => 3600,
             'path' => '/test',
             'domain' => 'example.com',
             'secure' => true,
@@ -54,7 +54,7 @@ class SessionMiddlewareTest extends \PHPUnit_Framework_TestCase
             'httponly' => false,
         ];
         $this->assertEquals($expected, session_get_cookie_params());
-        
+
         $this->assertEquals(PHP_SESSION_ACTIVE, session_status());
         $this->assertEquals('Test', session_name());
     }

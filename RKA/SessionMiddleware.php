@@ -11,22 +11,21 @@ use Slim\Middleware;
 
 final class SessionMiddleware extends Middleware
 {
-    protected $options = [
-        'name' => 'RKA',
-        'lifetime' => 7200,
-        'path' => null,
-        'domain' => null,
-        'secure' => false,
-        'httponly' => true,
-    ];
+    protected $options;
 
     public function __construct($options = [])
     {
-        $keys = array_keys($this->options);
-        foreach ($keys as $key) {
-            if (array_key_exists($key, $options)) {
-                $this->options[$key] = $options[$key];
-            }
+        $defaults = [
+          'name' => 'RKA',
+          'lifetime' => 7200,
+          'path' => '/',
+          'domain' => null,
+          'secure' => false,
+          'httponly' => false,
+        ];
+        $this->options = array_merge($defaults, $options);
+        if (is_string($lifetime = $this->options['lifetime'])) {
+            $this->options['lifetime'] = strtotime($lifetime) - time();
         }
     }
 
@@ -43,15 +42,13 @@ final class SessionMiddleware extends Middleware
         }
 
         $options = $this->options;
-        $current = session_get_cookie_params();
-        
-        $lifetime = (int)($options['lifetime'] ?: $current['lifetime']);
-        $path     = $options['path'] ?: $current['path'];
-        $domain   = $options['domain'] ?: $current['domain'];
-        $secure   = (bool)$options['secure'];
-        $httponly = (bool)$options['httponly'];
-
-        session_set_cookie_params($lifetime, $path, $domain, $secure, $httponly);
+        session_set_cookie_params(
+            $options['lifetime'],
+            $options['path'],
+            $options['domain'],
+            $options['secure'],
+            $options['httponly']
+        );
         session_name($options['name']);
         session_cache_limiter(false); //http://docs.slimframework.com/#Sessions
         session_start();
