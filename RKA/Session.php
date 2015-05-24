@@ -44,7 +44,7 @@ final class Session
 
     public function __set($key, $value)
     {
-        return $this->set($key, $value);
+        $this->set($key, $value);
     }
 
     public function __get($key)
@@ -59,6 +59,6 @@ final class Session
 
     public function __unset($key)
     {
-        return $this->delete($key);
+        $this->delete($key);
     }
 }
