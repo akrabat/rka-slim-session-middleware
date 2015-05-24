@@ -30,6 +30,25 @@ final class SessionMiddleware extends Middleware
         }
     }
 
+    /**
+     * Invoke middleware for Slim 3
+     *
+     * @param  RequestInterface  $request  PSR7 request object
+     * @param  ResponseInterface $response PSR7 response object
+     * @param  callable          $next     Next middleware callable
+     *
+     * @return ResponseInterface PSR7 response object
+     */
+    public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next)
+    {
+        $this->start();
+        return $next($request, $response);
+    }
+
+
+    /**
+     * Invoke middleware for Slim 2
+    */
     public function call()
     {
         $this->start();
