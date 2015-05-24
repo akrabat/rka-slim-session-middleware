@@ -7,9 +7,10 @@
  */
 namespace RKA;
 
-use Slim\Middleware;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
-final class SessionMiddleware extends Middleware
+final class SessionMiddleware
 {
     protected $options = [
         'name' => 'RKA',
@@ -31,7 +32,7 @@ final class SessionMiddleware extends Middleware
     }
 
     /**
-     * Invoke middleware for Slim 3
+     * Invoke middleware
      *
      * @param  RequestInterface  $request  PSR7 request object
      * @param  ResponseInterface $response PSR7 response object
@@ -43,16 +44,6 @@ final class SessionMiddleware extends Middleware
     {
         $this->start();
         return $next($request, $response);
-    }
-
-
-    /**
-     * Invoke middleware for Slim 2
-    */
-    public function call()
-    {
-        $this->start();
-        $this->next->call();
     }
 
     public function start()

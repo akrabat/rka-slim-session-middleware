@@ -17,7 +17,7 @@ Add middleware as usual:
 
 You can use `\RKA\Session` to access session variables. The main thing that this gives you is defaults and an OO interface:
 
-    $app->get('/', function (/* ... */) {
+    $app->get('/', function ($request, $response) {
         $session = new \RKA\Session();
 
         // Get session variable:
@@ -27,6 +27,8 @@ You can use `\RKA\Session` to access session variables. The main thing that this
         // Set session variable:
         $session->foo = 'this';
         $session->set('bar', 'that');
+
+        return $response;
     });
 
 
