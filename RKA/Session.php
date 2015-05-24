@@ -10,6 +10,13 @@ namespace RKA;
 
 final class Session
 {
+    public static function regenerate()
+    {
+        if (session_status() == PHP_SESSION_ACTIVE) {
+            session_regenerate_id(true);
+        }
+    }
+
     public static function destroy()
     {
         if (session_status() == PHP_SESSION_ACTIVE) {
