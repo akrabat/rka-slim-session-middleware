@@ -10,7 +10,6 @@ Middleware for [Slim Framework][1] that starts a session. Also provides a useful
 
 Add middleware as usual:
 
-    $app = new \Slim\Slim();
     $app->add(new \RKA\SessionMiddleware(['name' => 'MySessionName']));
 
 
@@ -18,7 +17,7 @@ Add middleware as usual:
 
 You can use `\RKA\Session` to access session variables. The main thing that this gives you is defaults and an OO interface:
 
-    $app->get('/', function () {
+    $app->get('/', function (/* ... */) {
         $session = new \RKA\Session();
 
         // Get session variable:
