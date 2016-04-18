@@ -19,6 +19,7 @@ final class SessionMiddleware
         'domain' => null,
         'secure' => false,
         'httponly' => true,
+        'cache_limiter' => 'nocache',
     ];
 
     public function __construct($options = [])
@@ -63,7 +64,7 @@ final class SessionMiddleware
 
         session_set_cookie_params($lifetime, $path, $domain, $secure, $httponly);
         session_name($options['name']);
-        session_cache_limiter(false); //http://docs.slimframework.com/#Sessions
+        session_cache_limiter($options['cache_limiter']);
         session_start();
     }
 }
