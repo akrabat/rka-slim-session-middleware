@@ -2,6 +2,9 @@
 namespace RKATest;
 
 use RKA\SessionMiddleware;
+use Slim\Http\Environment;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 class SessionMiddlewareTest extends \PHPUnit_Framework_TestCase
 {
@@ -73,16 +76,16 @@ class SessionMiddlewareTest extends \PHPUnit_Framework_TestCase
 
     public function testCallStartsSession()
     {
-        $next = $this->getMock('NextMiddleware', array('call'));
-        $next->expects($this->once())
-                 ->method('call');
-
-
         $session = new SessionMiddleware([]);
-        $session->setNextMiddleware($next);
+
+        $request = Request::createFromEnvironment(Environment::mock());
+        $response = new Response();
+        $next = function ($request, $response, $next) {
+            return $response;
+        };
 
         $this->assertEquals(PHP_SESSION_NONE, session_status());
-        @$session->call(); // silence cookie warning
+        @$session($request, $response, $next); // silence cookie warning
         $this->assertEquals(PHP_SESSION_ACTIVE, session_status());
     }
 }
