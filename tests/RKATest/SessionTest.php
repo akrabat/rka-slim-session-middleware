@@ -1,8 +1,6 @@
 <?php
 namespace RKATest;
 
-require __DIR__ . '/../../RKA/Session.php';
-
 use RKA\Session;
 
 class SessionTest extends \PHPUnit_Framework_TestCase

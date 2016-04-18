@@ -30,7 +30,7 @@ class SessionMiddlewareTest extends \PHPUnit_Framework_TestCase
             'httponly' => true,
         ];
         $this->assertEquals($expected, session_get_cookie_params());
-        
+
         $this->assertEquals(PHP_SESSION_ACTIVE, session_status());
         $this->assertEquals('RKA', session_name());
     }
@@ -57,7 +57,7 @@ class SessionMiddlewareTest extends \PHPUnit_Framework_TestCase
             'httponly' => false,
         ];
         $this->assertEquals($expected, session_get_cookie_params());
-        
+
         $this->assertEquals(PHP_SESSION_ACTIVE, session_status());
         $this->assertEquals('Test', session_name());
     }

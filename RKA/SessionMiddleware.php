@@ -55,7 +55,7 @@ final class SessionMiddleware
 
         $options = $this->options;
         $current = session_get_cookie_params();
-        
+
         $lifetime = (int)($options['lifetime'] ?: $current['lifetime']);
         $path     = $options['path'] ?: $current['path'];
         $domain   = $options['domain'] ?: $current['domain'];
