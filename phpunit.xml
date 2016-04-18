@@ -1,0 +1,19 @@
+<phpunit bootstrap="tests/bootstrap.php" colors="true">
+    <testsuite name="RKA Slim Session Middleware test suite">
+        <directory>tests</directory>
+    </testsuite>
+
+    <logging>
+        <log type="coverage-html" target="build/coverage" title="rka-slim-session-middleware"
+             charset="UTF-8" yui="true" highlight="true"
+             lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+        <log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false"/>
+    </logging>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhiteList="true">
+            <directory suffix=".php">RKA</directory>
+        </whitelist>
+    </filter>
+</phpunit>
