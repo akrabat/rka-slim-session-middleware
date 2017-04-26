@@ -84,7 +84,7 @@ final class SessionMiddleware
 
         $_SESSION['_idle'] = time();
 
-        // Manually extend session cookie expiry on each request (http://php.net/manual/en/function.session-set-cookie-params.php#100657)
+        // Manually extend session cookie expiry on each request
         if ($request->getCookieParam($options['name']) === $sessionId) {
             setcookie($options['name'], $sessionId, time() + $lifetime, $path, $domain, $secure, $httponly);
         }
