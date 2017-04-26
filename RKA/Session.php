@@ -8,7 +8,7 @@
  */
 namespace RKA;
 
-final class Session
+class Session
 {
     public static function regenerate()
     {
