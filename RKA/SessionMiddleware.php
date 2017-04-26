@@ -30,6 +30,12 @@ final class SessionMiddleware
                 $this->options[$key] = $options[$key];
             }
         }
+
+        // Allow only cookies
+        ini_set('session.use_only_cookies', 1);
+
+        // Set lifetime
+        ini_set('session.gc_maxlifetime', $this->options['lifetime']);
     }
 
     /**
@@ -43,11 +49,11 @@ final class SessionMiddleware
      */
     public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next)
     {
-        $this->start();
+        $this->start($request);
         return $next($request, $response);
     }
 
-    public function start()
+    public function start(RequestInterface $request)
     {
         if (session_status() == PHP_SESSION_ACTIVE) {
             return;
@@ -62,9 +68,25 @@ final class SessionMiddleware
         $secure   = (bool)$options['secure'];
         $httponly = (bool)$options['httponly'];
 
+        // Initial session cookie setup
         session_set_cookie_params($lifetime, $path, $domain, $secure, $httponly);
         session_name($options['name']);
         session_cache_limiter($options['cache_limiter']);
         session_start();
+
+        $sessionId = session_id();
+
+        // Manually expire session
+        if (isset($_SESSION['_idle']) && (time() - $_SESSION['_idle'] > $lifetime)) {
+            session_unset();
+            session_destroy();
+        }
+
+        $_SESSION['_idle'] = time();
+
+        // Manually extend session cookie expiry on each request (http://php.net/manual/en/function.session-set-cookie-params.php#100657)
+        if ($request->getCookieParam($options['name']) === $sessionId) {
+            setcookie($options['name'], $sessionId, time() + $lifetime, $path, $domain, $secure, $httponly);
+        }
     }
 }
