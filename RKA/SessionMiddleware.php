@@ -10,7 +10,7 @@ namespace RKA;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-final class SessionMiddleware
+class SessionMiddleware
 {
     protected $options = [
         'name' => 'RKA',
