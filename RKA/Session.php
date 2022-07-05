@@ -39,7 +39,7 @@ final class Session
         }
     }
 
-    public function get($key, $default = null): string
+    public function get($key, $default = null): mixed
     {
         if (array_key_exists($key, $_SESSION)) {
 
@@ -71,7 +71,7 @@ final class Session
         $this->set($key, $value);
     }
 
-    public function __get($key): string
+    public function __get($key): mixed
     {
         return $this->get($key);
     }
