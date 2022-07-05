@@ -10,14 +10,14 @@ namespace RKA;
 
 final class Session
 {
-    public static function regenerate()
+    public static function regenerate(): void
     {
         if (session_status() == PHP_SESSION_ACTIVE) {
             session_regenerate_id(true);
         }
     }
 
-    public static function destroy()
+    public static function destroy(): void
     {
         $_SESSION = [];
 
@@ -39,47 +39,49 @@ final class Session
         }
     }
 
-    public function get($key, $default = null)
+    public function get($key, $default = null): string
     {
         if (array_key_exists($key, $_SESSION)) {
+
             return $_SESSION[$key];
         }
+
         return $default;
     }
 
-    public function set($key, $value)
+    public function set($key, $value): void
     {
         $_SESSION[$key] = $value;
     }
 
-    public function delete($key)
+    public function delete($key): void
     {
         if (array_key_exists($key, $_SESSION)) {
             unset($_SESSION[$key]);
         }
     }
 
-    public function clearAll()
+    public function clearAll(): void
     {
         $_SESSION = [];
     }
 
-    public function __set($key, $value)
+    public function __set($key, $value): void
     {
         $this->set($key, $value);
     }
 
-    public function __get($key)
+    public function __get($key): string
     {
         return $this->get($key);
     }
 
-    public function __isset($key)
+    public function __isset($key): bool
     {
         return array_key_exists($key, $_SESSION);
     }
 
-    public function __unset($key)
+    public function __unset($key): void
     {
         $this->delete($key);
     }

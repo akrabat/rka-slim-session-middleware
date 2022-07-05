@@ -7,12 +7,13 @@
  */
 namespace RKA;
 
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 final class SessionMiddleware
 {
-    protected $options = [
+    protected array $options = [
         'name' => 'RKA',
         'lifetime' => 7200,
         'path' => null,
@@ -35,19 +36,18 @@ final class SessionMiddleware
     /**
      * Invoke middleware
      *
-     * @param  RequestInterface  $request  PSR7 request object
-     * @param  ResponseInterface $response PSR7 response object
-     * @param  callable          $next     Next middleware callable
+     * @param ServerRequestInterface  $request PSR7 request object
+     * @param RequestHandlerInterface $handler
      *
      * @return ResponseInterface PSR7 response object
      */
-    public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next)
+    public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $this->start();
-        return $next($request, $response);
+        return $handler->handle($request);
     }
 
-    public function start()
+    public function start(): void
     {
         if (session_status() == PHP_SESSION_ACTIVE) {
             return;
