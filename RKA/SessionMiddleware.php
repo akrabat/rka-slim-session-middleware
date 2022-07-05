@@ -9,9 +9,10 @@ namespace RKA;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-final class SessionMiddleware
+final class SessionMiddleware implements MiddlewareInterface
 {
     protected array $options = [
         'name' => 'RKA',
@@ -41,7 +42,7 @@ final class SessionMiddleware
      *
      * @return ResponseInterface PSR7 response object
      */
-    public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $this->start();
         return $handler->handle($request);
