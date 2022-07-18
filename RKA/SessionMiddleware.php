@@ -7,6 +7,7 @@
  */
 namespace RKA;
 
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -35,7 +36,23 @@ final class SessionMiddleware implements MiddlewareInterface
     }
 
     /**
-     * Invoke middleware
+     * invoke middleware slim3
+     *
+     * @param ServerRequestInterface $request PSR7 request object
+     * @param ResponseInterface      $response
+     * @param callable               $next
+     *
+     * @return ResponseInterface PSR7 response object
+     */
+    public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next)
+    {
+        $this->start();
+
+        return $next($request, $response);
+    }
+
+    /**
+     * process middleware slim4
      *
      * @param ServerRequestInterface  $request PSR7 request object
      * @param RequestHandlerInterface $handler
