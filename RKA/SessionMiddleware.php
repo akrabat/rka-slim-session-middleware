@@ -14,7 +14,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 final class SessionMiddleware implements MiddlewareInterface
 {
-    protected array $options = [
+    protected $options = [
         'name' => 'RKA',
         'lifetime' => 7200,
         'path' => null,
@@ -45,7 +45,7 @@ final class SessionMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $this->start();
-        
+
         return $handler->handle($request);
     }
 
