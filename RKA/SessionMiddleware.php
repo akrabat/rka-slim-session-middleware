@@ -36,7 +36,7 @@ final class SessionMiddleware implements MiddlewareInterface
     }
 
     /**
-     * Invoke middleware slim3
+     * Invoke middleware for a Slim 3 application
      *
      * @param ServerRequestInterface $request PSR7 request object
      * @param ResponseInterface      $response
@@ -52,7 +52,7 @@ final class SessionMiddleware implements MiddlewareInterface
     }
 
     /**
-     * process middleware slim4
+     * process middleware for a Slim 4 application
      *
      * @param ServerRequestInterface  $request PSR7 request object
      * @param RequestHandlerInterface $handler
