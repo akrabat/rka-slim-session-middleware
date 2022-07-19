@@ -9,8 +9,11 @@ namespace RKA;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-final class SessionMiddleware
+final class SessionMiddleware implements MiddlewareInterface
 {
     protected $options = [
         'name' => 'RKA',
@@ -33,21 +36,37 @@ final class SessionMiddleware
     }
 
     /**
-     * Invoke middleware
+     * Invoke middleware slim3
      *
-     * @param  RequestInterface  $request  PSR7 request object
-     * @param  ResponseInterface $response PSR7 response object
-     * @param  callable          $next     Next middleware callable
+     * @param ServerRequestInterface $request PSR7 request object
+     * @param ResponseInterface      $response
+     * @param callable               $next
      *
      * @return ResponseInterface PSR7 response object
      */
     public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next)
     {
         $this->start();
+
         return $next($request, $response);
     }
 
-    public function start()
+    /**
+     * process middleware slim4
+     *
+     * @param ServerRequestInterface  $request PSR7 request object
+     * @param RequestHandlerInterface $handler
+     *
+     * @return ResponseInterface PSR7 response object
+     */
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
+        $this->start();
+
+        return $handler->handle($request);
+    }
+
+    public function start(): void
     {
         if (session_status() == PHP_SESSION_ACTIVE) {
             return;
