@@ -44,7 +44,7 @@ final class SessionMiddleware implements MiddlewareInterface
      *
      * @return ResponseInterface PSR7 response object
      */
-    public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next)
+    public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next): ResponseInterface
     {
         $this->start();
 
