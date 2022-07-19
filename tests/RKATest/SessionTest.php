@@ -1,11 +1,12 @@
 <?php
 namespace RKATest;
 
+use PHPUnit\Framework\TestCase;
 use RKA\Session;
 
-class SessionTest extends \PHPUnit_Framework_TestCase
+class SessionTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $_SESSION = [
             'a' => '1',

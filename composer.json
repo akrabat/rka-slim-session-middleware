@@ -15,10 +15,12 @@
         }
     ],
     "require": {
-        "php": ">=7.4"
+        "php": ">=7.4",
+        "psr/http-server-middleware": "^1.0"
     },
     "require-dev": {
-        "slim/slim": "^3.0|^4.0"
+        "phpunit/phpunit": "^9.5",
+        "slim/psr7": "^1.5"
     },
     "autoload": {
         "psr-4": {

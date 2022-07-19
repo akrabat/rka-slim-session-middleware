@@ -1,26 +1,34 @@
 <?php
 namespace RKATest;
 
+use PHPUnit\Framework\TestCase;
 use RKA\SessionMiddleware;
-use Slim\Http\Environment;
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Slim\Psr7\Environment;
+use Slim\Psr7\Factory\StreamFactory;
+use Slim\Psr7\Factory\UriFactory;
+use Slim\Psr7\Headers;
+use Slim\Psr7\Request;
+use Slim\Psr7\Response;
+use Slim\Psr7\UploadedFile;
 
-class SessionMiddlewareTest extends \PHPUnit_Framework_TestCase
+class SessionMiddlewareTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
-        if (session_status() == PHP_SESSION_ACTIVE) {
+        if (session_status() === PHP_SESSION_ACTIVE) {
             session_destroy();
         }
     }
 
-    public function testDefaults()
+    /**
+     * @runInSeparateProcess
+     */
+    public function testDefaults(): void
     {
         $session = new SessionMiddleware();
 
         $this->assertEquals(PHP_SESSION_NONE, session_status());
-        @$session->start(); // silence cookie warning
+        $session->start();
 
         $expected = [
             'lifetime' => 7200,
@@ -28,6 +36,7 @@ class SessionMiddlewareTest extends \PHPUnit_Framework_TestCase
             'domain' => '',
             'secure' => false,
             'httponly' => true,
+            'samesite' => '',
         ];
         $this->assertEquals($expected, session_get_cookie_params());
 
@@ -35,7 +44,7 @@ class SessionMiddlewareTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('RKA', session_name());
     }
 
-    public function testOptions()
+    public function testOptions(): void
     {
         $session = new SessionMiddleware([
             'name' => 'Test',
@@ -47,7 +56,7 @@ class SessionMiddlewareTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->assertEquals(PHP_SESSION_NONE, session_status());
-        @$session->start(); // silence cookie warning
+        $session->start();
 
         $expected = [
             'lifetime' => 3600,
@@ -55,6 +64,7 @@ class SessionMiddlewareTest extends \PHPUnit_Framework_TestCase
             'domain' => 'example.com',
             'secure' => true,
             'httponly' => false,
+            'samesite' => '',
         ];
         $this->assertEquals($expected, session_get_cookie_params());
 
@@ -62,25 +72,33 @@ class SessionMiddlewareTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Test', session_name());
     }
 
-    public function testStartingSessionTwiceCausesNoWarning()
+    public function testStartingSessionTwiceCausesNoWarning(): void
     {
         $session = new SessionMiddleware([]);
 
         $this->assertEquals(PHP_SESSION_NONE, session_status());
-        @$session->start(); // silence cookie warning
+        $session->start();
         $this->assertEquals(PHP_SESSION_ACTIVE, session_status());
 
         $session->start();
         $this->assertEquals(PHP_SESSION_ACTIVE, session_status());
     }
 
-    public function testCallStartsSession()
+    public function testCallStartsSession(): void
     {
         $session = new SessionMiddleware([]);
 
-        $request = Request::createFromEnvironment(Environment::mock());
+        $env = Environment::mock();
+        $uri = (new UriFactory())->createUri('https://example.com:443/foo/bar?abc=123');
+        $headers = Headers::createFromGlobals($env);
+        $cookies = [];
+        $serverParams = $env;
+        $body = (new StreamFactory())->createStream();
+        $uploadedFiles = UploadedFile::createFromGlobals($env);
+
+        $request = new Request('GET', $uri, $headers, $cookies, $serverParams, $body, $uploadedFiles);
         $response = new Response();
-        $next = function ($request, $response, $next) {
+        $next = function ($request, $response) {
             return $response;
         };
 
