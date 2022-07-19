@@ -15,7 +15,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 final class SessionMiddleware implements MiddlewareInterface
 {
-    protected $options = [
+    protected array $options = [
         'name' => 'RKA',
         'lifetime' => 7200,
         'path' => null,
