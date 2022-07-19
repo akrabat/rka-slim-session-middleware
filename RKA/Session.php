@@ -12,7 +12,7 @@ final class Session
 {
     public static function regenerate(): void
     {
-        if (session_status() == PHP_SESSION_ACTIVE) {
+        if (session_status() === PHP_SESSION_ACTIVE) {
             session_regenerate_id(true);
         }
     }
@@ -34,7 +34,7 @@ final class Session
             );
         }
 
-        if (session_status() == PHP_SESSION_ACTIVE) {
+        if (session_status() === PHP_SESSION_ACTIVE) {
             session_destroy();
         }
     }
