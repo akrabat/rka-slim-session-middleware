@@ -42,7 +42,6 @@ final class Session
     public function get($key, $default = null)
     {
         if (array_key_exists($key, $_SESSION)) {
-
             return $_SESSION[$key];
         }
 
