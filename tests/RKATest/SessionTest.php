@@ -1,4 +1,5 @@
 <?php
+
 namespace RKATest;
 
 use PHPUnit\Framework\TestCase;
@@ -76,7 +77,9 @@ class SessionTest extends TestCase
     {
         @session_start();
         $this->assertEquals(PHP_SESSION_ACTIVE, session_status());
-        @Session::destroy(); // silence headers already sent warning
+        $session = new Session;
+        $session->destroy();
+        // silence headers already sent warning
         $this->assertEquals(PHP_SESSION_NONE, session_status());
     }
 }
