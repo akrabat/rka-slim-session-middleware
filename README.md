@@ -37,4 +37,4 @@ if you need to destroy the session, you can do:
     \RKA\Session::destroy();
 
 
-[1]: http://www.slimframework.com/
+[1]: https://www.slimframework.com/
